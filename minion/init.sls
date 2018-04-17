@@ -9,8 +9,6 @@ salt-minion:
     - watch:
       - pkg: salt-minion
       - file: /etc/salt/minion
-      - file: /etc/salt/minion.d/*
-      - file: /etc/hosts
 
 /etc/salt/minion:
   file.managed:
