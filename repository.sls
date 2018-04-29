@@ -1,6 +1,7 @@
 # Setup official saltstack repository
 saltstack_repo:
   pkgrepo.managed:
-    - name: deb http://repo.saltstack.com/py3/{{ grains['os']|lower }}/{{ grains['osrelease'] }}/{{ grains['osarch'] }}/latest {{ grains['oscodename'] }} main
+    - name: deb http://repo.saltstack.com/py3/{{ grains['os']|lower }}/{{ release }}/{{ grains['osarch'] }}/latest {{ codename }} main
+    # - name: deb http://repo.saltstack.com/py3/{{ grains['os']|lower }}/{{ grains['osrelease'] }}/{{ grains['osarch'] }}/latest {{ grains['oscodename'] }} main
     - file: /etc/apt/sources.list.d/saltstack.list
-    - key_url: https://repo.saltstack.com/py3/{{ grains['os']|lower }}/{{ grains['osrelease'] }}/{{ grains['osarch'] }}/latest/SALTSTACK-GPG-KEY.pub
+    - key_url: https://repo.saltstack.com/apt/{{ grains['os']|lower }}/{{ release }}/{{ grains['osarch'] }}/latest/SALTSTACK-GPG-KEY.pub
