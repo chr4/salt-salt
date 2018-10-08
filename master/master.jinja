@@ -14,9 +14,9 @@
 #default_include: master.d/*.conf
 
 # The address of the interface to bind to:
-{% if interface is defined -%}
-interface: {{ interface }}
-{% endif %}
+{% if interface != None -%}
+{{ interface }}
+{% endif -%}
 
 # Whether the master should listen for IPv6 connections. If this is set to True,
 # the interface option must be adjusted, too. (For example: "interface: '::'")
@@ -641,9 +641,15 @@ interface: {{ interface }}
 #     - /srv/salt/prod/services
 #     - /srv/salt/prod/states
 #
+{% if file_roots != None -%}
 file_roots:
-  base:
-    - {{ file_root }}
+  {%- for name, roots in file_roots|dictsort %}
+  {{ name }}:
+    {%- for path in roots %}
+    - {{ path }}
+    {%- endfor -%}
+  {% endfor -%}
+{% endif %}
 
 # The master_roots setting configures a master-only copy of the file_roots dictionary,
 # used by the state compiler.
@@ -813,17 +819,19 @@ hash_type: sha512
 #pillar_roots:
 #  base:
 #    - /srv/pillar
-{% if pillar_root is defined -%}
-pillar_roots:
-  base:
-    - {{ pillar_root }}
-{% endif %}
-
 #
 #ext_pillar:
 #  - hiera: /etc/hiera.yaml
 #  - cmd_yaml: cat /etc/salt/yaml
-
+{% if pillar_roots != None -%}
+pillar_roots:
+  {%- for name, roots in pillar_roots|dictsort %}
+  {{ name }}:
+    {%- for path in roots %}
+    - {{ path }}
+    {%- endfor -%}
+  {% endfor -%}
+{% endif %}
 
 # A list of paths to be recursively decrypted during pillar compilation.
 # Entries in this list can be formatted either as a simple string, or as a
@@ -1188,6 +1196,15 @@ pillar_roots:
 #    - 'G@foo:bar'
 #    - 'or'
 #    - 'G@foo:baz'
+{% if nodegroups != None -%}
+nodegroups:
+  {%- for name, nodes in nodegroups|dictsort %}
+  {{ name }}:
+    {%- for node in nodes %}
+    - {{ node }}
+    {%- endfor -%}
+  {% endfor -%}
+{% endif %}
 
 
 #####     Range Cluster settings     #####

@@ -15,7 +15,7 @@
 
 # Set the location of the salt master server. If the master server cannot be
 # resolved, then the minion will fail to start.
-{% if master is defined %}
+{% if master != None -%}
 master: {{ master }}
 {% endif %}
 
@@ -371,9 +371,11 @@ master: {{ master }}
 # Example functions that can be run via the mine facility
 # NO mine functions are established by default.
 # Note these can be defined in the minion's pillar as well.
-mine_functions:
-  network.ip_addrs: []
-  network.ip_addrs6: []
+#mine_functions:
+#  test.ping: []
+#  network.ip_addrs:
+#    interface: eth0
+#    cidr: '10.0.0.0/8'
 
 # The number of minutes between mine updates.
 #mine_interval: 60
@@ -550,7 +552,7 @@ mine_functions:
 # files, but can be directed to look at the local file directory setting
 # defined below by setting it to "local". Setting a local file_client runs the
 # minion in masterless mode.
-{% if file_root is defined %}
+{% if file_roots != None -%}
 file_client: local
 {% endif %}
 
@@ -569,10 +571,14 @@ file_client: local
 #     - /srv/salt/prod/services
 #     - /srv/salt/prod/states
 #
-{% if file_root is defined %}
+{% if file_roots != None -%}
 file_roots:
-  base:
-    - {{ file_root }}
+  {%- for name, roots in file_roots|dictsort %}
+  {{ name }}:
+    {%- for root in roots %}
+    - {{ node }}
+    {%- endfor -%}
+  {% endfor -%}
 {% endif %}
 
 # Uncomment the line below if you do not want the file_server to follow
@@ -612,12 +618,15 @@ hash_type: sha512
 #pillar_roots:
 #  base:
 #    - /srv/pillar
-{% if pillar_root is defined -%}
+{% if pillar_roots != None -%}
 pillar_roots:
-  base:
-    - {{ pillar_root }}
+  {%- for name, roots in pillar_roots|dictsort %}
+  {{ name }}:
+    {%- for root in roots %}
+    - {{ node }}
+    {%- endfor -%}
+  {% endfor -%}
 {% endif %}
-
 
 # Set a hard-limit on the size of the files that can be pushed to the master.
 # It will be interpreted as megabytes. Default: 100
@@ -667,7 +676,7 @@ pillar_roots:
 # Fingerprint of the master public key to validate the identity of your Salt master
 # before the initial key exchange. The master fingerprint can be found by running
 # "salt-key -f master.pub" on the Salt master.
-{% if master_finger is defined %}
+{% if master_finger != None -%}
 master_finger: '{{ master_finger }}'
 {% endif %}
 

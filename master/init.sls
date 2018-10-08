@@ -1,3 +1,5 @@
+{% set master = pillar['salt']['master']|default({}) %}
+
 include:
   - salt.repository
 
@@ -19,8 +21,10 @@ salt-master:
     - source: salt://{{ slspath }}/master.jinja
     - template: jinja
     - defaults:
-      interface: 10.13.37.1
-      file_root: /etc/salt/file_root
-      pillar_root: /etc/salt/pillar_root
+      interface: {{ master['interface']|default() }}
+      file_roots: {{ master['file_roots']|default() }}
+      pillar_roots: {{ master['pillar_roots']|default() }}
+      nodegroups: {{ master['nodegroups']|default() }}
+
     - require:
       - pkg: salt-master
