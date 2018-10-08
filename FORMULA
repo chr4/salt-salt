@@ -1,0 +1,7 @@
+name: salt
+os: Debian, Ubuntu
+os_family: Debian
+version: 201807
+release: 1
+summary: Formula for installing and configuring salt-minion and salt-master
+description: Formula for installing and configuring salt-minion and salt-master
