@@ -645,6 +645,10 @@ file_roots:
   base:
     - {{ file_root }}
 
+# The master_roots setting configures a master-only copy of the file_roots dictionary,
+# used by the state compiler.
+#master_roots: /srv/salt-master
+
 # When using multiple environments, each with their own top file, the
 # default behaviour is an unordered merge. To prevent top files from
 # being merged together and instead to only use the top file from the
