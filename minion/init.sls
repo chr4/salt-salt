@@ -30,6 +30,7 @@ salt-minion:
     - require:
       - pkg: salt-minion
 
+{% if minion['mines'] is defined %}
 {% for name, _ in minion['mines']|dictsort %}
 /etc/salt/minion.d/{{ name }}.conf:
   file.managed:
@@ -38,3 +39,4 @@ salt-minion:
     - mode: 644
     - contents_pillar: salt:minion:mines:{{ name }}
 {% endfor %}
+{% endif %}
