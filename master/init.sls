@@ -21,7 +21,7 @@ salt-master:
     - source: salt://{{ slspath }}/master.jinja
     - template: jinja
     - defaults:
-      interface: {{ master['interface']|default() }}
+      interface: {{ master['interface']|default("'::'") }}
       file_roots: {{ master['file_roots']|default() }}
       pillar_roots: {{ master['pillar_roots']|default() }}
       nodegroups: {{ master['nodegroups']|default() }}
