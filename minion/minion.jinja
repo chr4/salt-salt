@@ -600,8 +600,8 @@ file_client: local
 file_roots:
   {%- for name, roots in file_roots|dictsort %}
   {{ name }}:
-    {%- for root in roots %}
-    - {{ node }}
+    {%- for path in roots %}
+    - {{ path }}
     {%- endfor -%}
   {% endfor -%}
 {% endif %}
@@ -647,8 +647,8 @@ hash_type: sha512
 pillar_roots:
   {%- for name, roots in pillar_roots|dictsort %}
   {{ name }}:
-    {%- for root in roots %}
-    - {{ node }}
+    {%- for path in roots %}
+    - {{ path }}
     {%- endfor -%}
   {% endfor -%}
 {% endif %}

@@ -23,6 +23,13 @@ salt:
     master_finger: 'b9:40: [...]'
     ipv6: true
 
+    file_roots:
+      base:
+        - /etc/salt/file_root
+    pillar_roots:
+      base:
+        - /etc/salt/pillar_root
+
     # Configure salt mines
     mines:
       network: |
