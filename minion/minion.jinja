@@ -577,7 +577,7 @@ ipv6: True
 # files, but can be directed to look at the local file directory setting
 # defined below by setting it to "local". Setting a local file_client runs the
 # minion in masterless mode.
-{% if file_roots != None -%}
+{% if master == None -%}
 file_client: local
 {% endif %}
 
