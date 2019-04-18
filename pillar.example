@@ -3,7 +3,7 @@
 salt:
   # Configure master options
   master:
-    state_verbose: false
+    state_verbose: False
 
     file_roots:
       base:
@@ -23,8 +23,8 @@ salt:
   minion:
     master: salt-master.example.com
     master_finger: 'b9:40: [...]'
-    ipv6: true
-    state_verbose: false
+    ipv6: True
+    state_verbose: False
 
     file_roots:
       base:
