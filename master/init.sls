@@ -21,6 +21,7 @@ salt-master:
     - source: salt://{{ slspath }}/master.jinja
     - template: jinja
     - defaults:
+      state_verbose: {{ master['state_verbose']|default(True) }}
       interface: {{ master['interface']|default("'::'") }}
       file_roots: {{ master['file_roots']|default() }}
       pillar_roots: {{ master['pillar_roots']|default() }}

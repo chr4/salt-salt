@@ -26,6 +26,7 @@ salt-minion:
       master: {{ minion['master']|default() }}
       master_finger: {{ minion['master_finger']|default() }}
       ipv6: {{ minion['ipv6']|default(False) }}
+      state_verbose: {{ minion['state_verbose']|default(True) }}
       file_roots: {{ minion['file_roots']|default() }}
       pillar_roots: {{ minion['pillar_roots']|default() }}
     - require:
