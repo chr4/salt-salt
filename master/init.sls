@@ -1,5 +1,3 @@
-{% set master = pillar['salt']['master']|default({}) %}
-
 include:
   - salt.repository
 
@@ -21,11 +19,11 @@ salt-master:
     - source: salt://{{ slspath }}/master.jinja
     - template: jinja
     - defaults:
-      state_verbose: {{ master['state_verbose']|default(True) }}
-      interface: {{ master['interface']|default("'::'") }}
-      file_roots: {{ master['file_roots']|default() }}
-      pillar_roots: {{ master['pillar_roots']|default() }}
-      nodegroups: {{ master['nodegroups']|default() }}
+      state_verbose: {{ salt['pillar.get']('salt:master:state_verbose', True) }}
+      interface: {{ salt['pillar.get']('salt:master:interface', "'::'") }}
+      file_roots: {{ salt['pillar.get']('salt:master:file_roots') }}
+      pillar_roots: {{ salt['pillar.get']('salt:master:pillar_roots') }}
+      nodegroups: {{ salt['pillar.get']('salt:master:nodegroups') }}
 
     - require:
       - pkg: salt-master

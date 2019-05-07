@@ -1,5 +1,3 @@
-{% set minion = pillar['salt']['minion']|default({}) %}
-
 include:
   - salt.repository
 
@@ -11,7 +9,7 @@ salt-minion:
     - watch:
       - pkg: salt-minion
       - file: /etc/salt/minion
-{% if minion['mines'] is defined %}
+{% if salt['pillar.get']('salt:minion:mines', undefined) is defined %}
       - file: /etc/salt/minion.d/*
 {% endif %}
 
@@ -23,17 +21,16 @@ salt-minion:
     - source: salt://{{ slspath }}/minion.jinja
     - template: jinja
     - defaults:
-      master: {{ minion['master']|default() }}
-      master_finger: {{ minion['master_finger']|default() }}
-      ipv6: {{ minion['ipv6']|default(False) }}
-      state_verbose: {{ minion['state_verbose']|default(True) }}
-      file_roots: {{ minion['file_roots']|default() }}
-      pillar_roots: {{ minion['pillar_roots']|default() }}
+      master: {{ salt['pillar.get']('salt:minion:master') }}
+      master_finger: {{  salt['pillar.get']('salt:minion:master_finger')  }}
+      ipv6: {{  salt['pillar.get']('salt:minion:ipv6', False)  }}
+      state_verbose: {{  salt['pillar.get']('salt:minion:state_verbose', True)  }}
+      file_roots: {{  salt['pillar.get']('salt:minion:file_roots')  }}
+      pillar_roots: {{  salt['pillar.get']('salt:minion:pillar_roots')  }}
     - require:
       - pkg: salt-minion
 
-{% if minion['mines'] is defined %}
-{% for name, _ in minion['mines']|dictsort %}
+{% for name, _ in salt['pillar.get']('salt:minion:mines', {})|dictsort %}
 /etc/salt/minion.d/{{ name }}.conf:
   file.managed:
     - user: root
@@ -41,4 +38,3 @@ salt-minion:
     - mode: 644
     - contents_pillar: salt:minion:mines:{{ name }}
 {% endfor %}
-{% endif %}
