@@ -18,7 +18,7 @@ salt-minion:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://{{ slspath }}/minion.jinja
+    - source: salt://{{ tpldir }}/minion.jinja
     - template: jinja
     - defaults:
       master: {{ salt.pillar.get('salt:minion:master') }}

@@ -16,7 +16,7 @@ salt-master:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://{{ slspath }}/master.jinja
+    - source: salt://{{ tpldir }}/master.jinja
     - template: jinja
     - defaults:
       state_verbose: {{ salt.pillar.get('salt:master:state_verbose', True) }}
