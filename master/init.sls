@@ -19,11 +19,11 @@ salt-master:
     - source: salt://{{ tpldir }}/master.jinja
     - template: jinja
     - defaults:
-      state_verbose: {{ salt.pillar.get('salt:master:state_verbose', True) }}
-      interface: {{ salt.pillar.get('salt:master:interface', "'::'") }}
-      file_roots: {{ salt.pillar.get('salt:master:file_roots') }}
-      pillar_roots: {{ salt.pillar.get('salt:master:pillar_roots') }}
-      nodegroups: {{ salt.pillar.get('salt:master:nodegroups') }}
+      state_verbose: {{ salt['pillar.get']('salt:master:state_verbose', True) }}
+      interface: {{ salt['pillar.get']('salt:master:interface', "'::'") }}
+      file_roots: {{ salt['pillar.get']('salt:master:file_roots') }}
+      pillar_roots: {{ salt['pillar.get']('salt:master:pillar_roots') }}
+      nodegroups: {{ salt['pillar.get']('salt:master:nodegroups') }}
 
     - require:
       - pkg: salt-master
